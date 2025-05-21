@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  dev-db:
+    image: postgres:13
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: Admin
+      POSTGRES_PASSWORD: "%40PORTaLDb1903"
+      POSTGRES_DB: JobPortalDB
