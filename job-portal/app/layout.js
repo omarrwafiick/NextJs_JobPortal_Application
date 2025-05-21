@@ -1,7 +1,8 @@
 import { Inter } from 'next/font/google';
 import "./globals.css";
-import Footer from '../(components)/footer';
-import Nav from '../(components)/nav';
+import Footer from './components/footer';
+import NavBar from './components/navbar';
+import SideBar from './components/sidebar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +16,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className}`}>
         <div className="flex flex-col h-screen max-h-screen">
-          <Nav />
+          <NavBar />
+          <SideBar />
           <div className="flex-grow overflow-y-auto bg-slate-800 text-white">
             {children}
           </div>
