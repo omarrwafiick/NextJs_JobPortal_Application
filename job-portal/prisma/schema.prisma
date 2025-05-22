@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("DATABASE_URL")
 }
 
 model User {
@@ -14,10 +14,14 @@ model User {
   password String
   role        Role
   resumeUrl   String?
+  resumePublicId String?
   profileUrl   String?
+  profilePublicId String?
   skills      Tag[]    @relation("UserSkills")
   jobs        Job[]    @relation("CompanyJobs")
   applications JobApplication[]
+  resetToken String?
+  resetExpiresAt DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   @@map("Users")
@@ -38,7 +42,7 @@ model Job {
 
 model Tag {
   id    String  @id @default(uuid())
-  name  String
+  name  String @unique 
   users User[]  @relation("UserSkills")
   jobs  Job[]  @relation("JobTags")
   @@map("Tags")

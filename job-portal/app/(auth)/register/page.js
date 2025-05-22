@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Input from '@/app/components/input';
 import Password from '@/app/components/password'; 
+import { uploadFile } from '@/app/lib/cloudinary';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -14,20 +15,6 @@ export default function RegisterPage() {
   const [resume, setResume] = useState(); 
   const [profile, setProfile] = useState(); 
 
-  const uploadFile = async (file, type) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("type", type);  
-
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-
-    const data = await res.json();
-
-    return data.url;
-  };
 
   const registerUser = async (e) => {
     e.preventDefault();
@@ -36,16 +23,18 @@ export default function RegisterPage() {
         //toaster
         return;
       }
-      const resumeUrl = await uploadFile(resume, 'resume');
-      const imageUrl = await uploadFile(profile, 'profile');
+      const resumeData = await uploadFile(resume, 'resume');
+      const imageData = await uploadFile(profile, 'profile');
 
       const data = {
         name,
         email,
         password,
         role,
-        resumeUrl,
-        imageUrl
+        resumeUrl: resumeData.url,
+        resumePublicId: resumeData.id,
+        profileUrl:imageData.url,
+        profilePublicId: imageData.id
       };
       
       const res = await fetch('/api/register', {

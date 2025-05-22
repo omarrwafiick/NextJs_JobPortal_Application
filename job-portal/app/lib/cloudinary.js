@@ -7,3 +7,24 @@ cloudinary.config({
 });
 
 export default cloudinary;
+
+export const uploadFile = async (file, type) => {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("type", type);  
+
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData, 
+  });
+
+  const data = await res.json();
+
+  return data;
+};
+
+export const removeFile = async (id) => { 
+  await fetch(`/api/remove/${id}`, {
+    method: "POST"
+  }); 
+};
